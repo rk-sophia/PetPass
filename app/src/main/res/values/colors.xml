@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="petpass_purple">#9C4DEB</color>
+    <color name="petpass_gold">#FFD700</color>
+    <color name="petpass_platina">#A0A0A0</color>
+    <color name="petpass_text_secondary">#757575</color>
+</resources>

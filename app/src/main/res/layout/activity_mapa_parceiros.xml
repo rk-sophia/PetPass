@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Estado 1: CARREGANDO -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <!-- Estado 2: CONTEUDO -->
+    <LinearLayout
+        android:id="@+id/layoutConteudo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <fragment
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnGerarCheckin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:backgroundTint="#673AB7"
+            android:text="Gerar Check-in / QR Code" />
+    </LinearLayout>
+
+    <!-- Estado 3: VAZIO -->
+    <TextView
+        android:id="@+id/txtVazio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nenhum pet shop parceiro encontrado na região."
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+    <!-- Estado 4: ERRO -->
+    <LinearLayout
+        android:id="@+id/layoutErro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtMensagemErro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Falha de conexão com a rede." />
+
+        <Button
+            android:id="@+id/btnTentarNovamente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Tentar Novamente" />
+    </LinearLayout>
+
+</RelativeLayout>
