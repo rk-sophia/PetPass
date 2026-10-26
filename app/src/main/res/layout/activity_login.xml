@@ -9,19 +9,19 @@
 
     <ImageView
         android:id="@+id/imgLogoLogin"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/ic_launcher_background"
-        android:contentDescription="Logo PetPass" />
+        android:layout_width="302dp"
+        android:layout_height="187dp"
+        android:contentDescription="Logo PetPass"
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PetPass"
+        android:layout_marginTop="8dp"
+        android:text="Login"
         android:textColor="@color/petpass_purple"
         android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/etEmail"
