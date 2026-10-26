@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">PetPass</string>
+    <string-array name="tipos_pet">
+        <item>Cachorro</item>
+        <item>Gato</item>
+    </string-array>
 </resources>

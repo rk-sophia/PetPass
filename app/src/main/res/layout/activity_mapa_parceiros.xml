@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:backgroundTint="#673AB7"
-            android:text="Gerar Check-in / QR Code" />
+            android:text="Selecionar Estabelecimento" />
     </LinearLayout>
 
     <!-- Estado 3: VAZIO -->
