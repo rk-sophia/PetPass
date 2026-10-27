@@ -110,7 +110,8 @@ public class CheckoutActivity extends AppCompatActivity {
         db.collection("usuarios").document(userId).update(dadosCheckout)
             .addOnSuccessListener(aVoid -> {
                 Toast.makeText(CheckoutActivity.this, "Assinatura ativada!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CheckoutActivity.this, MapaParceirosActivity.class);
+                // Agora redireciona para a HomeActivity
+                Intent intent = new Intent(CheckoutActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             })
