@@ -17,4 +17,12 @@ public class RetrofitClient {
         }
         return retrofit.create(PetPassApiService.class);
     }
+
+    public static ViaCepService getViaCepService() {
+        return new Retrofit.Builder()
+                .baseUrl("https://viacep.com.br/ws/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ViaCepService.class);
+    }
 }
