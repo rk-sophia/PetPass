@@ -1,5 +1,6 @@
 package com.petpass.tutor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -63,6 +64,8 @@ public class CadastroActivity extends AppCompatActivity {
             .addOnCompleteListener(this, task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(CadastroActivity.this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CadastroActivity.this, PerfilPetActivity.class);
+                    startActivity(intent);
                     finish();
                 } else {
                     Toast.makeText(CadastroActivity.this, "Erro ao cadastrar: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();

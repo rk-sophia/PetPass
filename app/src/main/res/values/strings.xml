@@ -4,4 +4,14 @@
         <item>Cachorro</item>
         <item>Gato</item>
     </string-array>
+    <string-array name="portes_pet">
+        <item>Pequeno</item>
+        <item>Médio</item>
+        <item>Grande</item>
+    </string-array>
+    <string-array name="planos_pet">
+        <item>Plano Premium (R$ 89,90)</item>
+        <item>Plano Gold (R$ 139,90)</item>
+        <item>Plano Platina (R$ 199,90)</item>
+    </string-array>
 </resources>

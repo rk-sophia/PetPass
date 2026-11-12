@@ -3,7 +3,6 @@ package com.petpass.tutor;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,68 +11,54 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.petpass.tutor.data.model.PetItem;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 public class PerfilPetActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 71;
-    
-    private EditText etNomePet, etRacaPet, etPortePet;
-    private Spinner spTipoPet;
+
+    private EditText etNomePet, etRacaPet;
+    private Spinner spTipoPet, spPortePet, spPlanoPet;
     private ImageView imgPetFoto;
-    private Button btnSalvarPet;
-    private TextView tvNomePlanoSelecionado;
-    private RecyclerView rvBeneficiosPlano;
-    
+    private TextView tvResumoPets;
+    private Button btnAdicionarOutroPet, btnSalvarPet;
+
     private Uri filePath;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
+    private final List<PetItem> listaPets = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_pet);
 
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
         etNomePet = findViewById(R.id.etNomePet);
         etRacaPet = findViewById(R.id.etRacaPet);
-        etPortePet = findViewById(R.id.etPortePet);
         spTipoPet = findViewById(R.id.spTipoPet);
+        spPortePet = findViewById(R.id.spPortePet);
+        spPlanoPet = findViewById(R.id.spPlanoPet);
         imgPetFoto = findViewById(R.id.imgPetFoto);
+        tvResumoPets = findViewById(R.id.tvResumoPets);
+        btnAdicionarOutroPet = findViewById(R.id.btnAdicionarOutroPet);
         btnSalvarPet = findViewById(R.id.btnSalvarPet);
-        tvNomePlanoSelecionado = findViewById(R.id.tvNomePlanoSelecionado);
-        rvBeneficiosPlano = findViewById(R.id.rvBeneficiosPlano);
-
-        String nomePlano = getIntent().getStringExtra("NOME_PLANO");
-        ArrayList<String> beneficios = getIntent().getStringArrayListExtra("BENEFICIOS");
-
-        if (nomePlano != null) {
-            tvNomePlanoSelecionado.setText(nomePlano);
-        }
-
-        if (beneficios != null) {
-            BeneficiosAdapter adapter = new BeneficiosAdapter(beneficios);
-            rvBeneficiosPlano.setLayoutManager(new LinearLayoutManager(this));
-            rvBeneficiosPlano.setAdapter(adapter);
-        }
 
         imgPetFoto.setOnClickListener(v -> escolherImagem());
-        btnSalvarPet.setOnClickListener(v -> salvarPetESeguir());
+
+        btnAdicionarOutroPet.setOnClickListener(v -> processarEAdicionarPet(false));
+        btnSalvarPet.setOnClickListener(v -> processarEAdicionarPet(true));
+
+        atualizarResumo();
     }
 
     private void escolherImagem() {
@@ -92,55 +77,101 @@ public class PerfilPetActivity extends AppCompatActivity {
         }
     }
 
-    private void salvarPetESeguir() {
+    private void processarEAdicionarPet(boolean irParaCheckout) {
         String nome = etNomePet.getText().toString().trim();
         String raca = etRacaPet.getText().toString().trim();
-        String porte = etPortePet.getText().toString().trim();
-        String tipo = spTipoPet.getSelectedItem().toString();
+        String tipo = spTipoPet.getSelectedItem() != null ? spTipoPet.getSelectedItem().toString() : "Cachorro";
+        String porte = spPortePet.getSelectedItem() != null ? spPortePet.getSelectedItem().toString() : "Médio";
+        String planoSelecionadoStr = spPlanoPet.getSelectedItem() != null ? spPlanoPet.getSelectedItem().toString() : "Plano Premium";
 
-        if (nome.isEmpty() || raca.isEmpty() || porte.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos do pet", Toast.LENGTH_SHORT).show();
+        // Se o formulário estiver preenchido, adiciona o pet atual
+        if (!nome.isEmpty() && !raca.isEmpty()) {
+            if (filePath != null) {
+                StorageReference ref = storageReference.child("pets/" + UUID.randomUUID().toString());
+                ref.putFile(filePath)
+                        .addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                            adicionarPetNaLista(nome, tipo, raca, porte, planoSelecionadoStr, uri.toString());
+                            concluirAcao(irParaCheckout);
+                        }))
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(this, "Erro no upload da foto. Salvando sem foto.", Toast.LENGTH_SHORT).show();
+                            adicionarPetNaLista(nome, tipo, raca, porte, planoSelecionadoStr, null);
+                            concluirAcao(irParaCheckout);
+                        });
+                return;
+            } else {
+                adicionarPetNaLista(nome, tipo, raca, porte, planoSelecionadoStr, null);
+            }
+        } else if (irParaCheckout && listaPets.isEmpty()) {
+            Toast.makeText(this, "Preencha o nome e raça do pet para continuar", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (filePath != null) {
-            uploadImagemESalvar(nome, raca, porte, tipo);
+        concluirAcao(irParaCheckout);
+    }
+
+    private void adicionarPetNaLista(String nome, String tipo, String raca, String porte, String planoStr, String fotoUrl) {
+        String nomePlano = "Plano Premium";
+        double valorBase = 89.90;
+
+        if (planoStr.contains("Gold")) {
+            nomePlano = "Plano Gold";
+            valorBase = 139.90;
+        } else if (planoStr.contains("Platina")) {
+            nomePlano = "Plano Platina";
+            valorBase = 199.90;
+        }
+
+        // Regra de Desconto por Mesmo Porte:
+        // Verifica se já existe pet adicionado na lista com o mesmo porte.
+        boolean mesmoPorteExiste = false;
+        for (PetItem p : listaPets) {
+            if (p.getPorte().equalsIgnoreCase(porte)) {
+                mesmoPorteExiste = true;
+                break;
+            }
+        }
+
+        double valorFinal = valorBase;
+        boolean temDesconto = false;
+        if (mesmoPorteExiste) {
+            valorFinal = valorBase * 0.80; // 20% de desconto no plano para pets do mesmo porte
+            temDesconto = true;
+        }
+
+        PetItem petItem = new PetItem(nome, tipo, raca, porte, fotoUrl, nomePlano, valorBase, valorFinal, temDesconto);
+        listaPets.add(petItem);
+
+        limparFormulario();
+        atualizarResumo();
+
+        if (temDesconto) {
+            Toast.makeText(this, "Pet " + nome + " adicionado com 20% de desconto (mesmo porte)!", Toast.LENGTH_LONG).show();
         } else {
-            salvarNoFirestore(nome, raca, porte, tipo, null);
+            Toast.makeText(this, "Pet " + nome + " adicionado com sucesso!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void uploadImagemESalvar(String nome, String raca, String porte, String tipo) {
-        StorageReference ref = storageReference.child("pets/" + UUID.randomUUID().toString());
-        ref.putFile(filePath)
-            .addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                salvarNoFirestore(nome, raca, porte, tipo, uri.toString());
-            }))
-            .addOnFailureListener(e -> {
-                Toast.makeText(this, "Falha no upload: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                salvarNoFirestore(nome, raca, porte, tipo, null);
-            });
+    private void limparFormulario() {
+        etNomePet.setText("");
+        etRacaPet.setText("");
+        imgPetFoto.setImageResource(android.R.drawable.ic_menu_camera);
+        filePath = null;
     }
 
-    private void salvarNoFirestore(String nome, String raca, String porte, String tipo, @Nullable String fotoUrl) {
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-        if (userId == null) return;
+    private void atualizarResumo() {
+        tvResumoPets.setText("Pets cadastrados até agora: " + listaPets.size());
+    }
 
-        Map<String, Object> pet = new HashMap<>();
-        pet.put("nome", nome);
-        pet.put("raca", raca);
-        pet.put("porte", porte);
-        pet.put("tipo", tipo);
-        pet.put("fotoUrl", fotoUrl);
-        String nomePlano = getIntent().getStringExtra("NOME_PLANO");
-        pet.put("plano", nomePlano);
-
-        db.collection("usuarios").document(userId).collection("pets").add(pet)
-            .addOnSuccessListener(documentReference -> {
-                Intent intent = new Intent(PerfilPetActivity.this, CheckoutActivity.class);
-                intent.putExtra("NOME_PLANO", nomePlano); // Garante que o plano chegue no checkout
-                startActivity(intent);
-            })
-            .addOnFailureListener(e -> Toast.makeText(this, "Erro ao salvar pet", Toast.LENGTH_SHORT).show());
+    private void concluirAcao(boolean irParaCheckout) {
+        if (irParaCheckout) {
+            if (listaPets.isEmpty()) {
+                Toast.makeText(this, "Cadastre pelo menos um pet para avançar", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Intent intent = new Intent(PerfilPetActivity.this, CheckoutActivity.class);
+            intent.putExtra("LISTA_PETS", new ArrayList<>(listaPets));
+            startActivity(intent);
+        }
     }
 }

@@ -40,14 +40,15 @@ public class PerfilDashboardFragment extends Fragment {
             db.collection("usuarios").document(userId).get()
                 .addOnSuccessListener(documentSnapshot -> {
                     if (documentSnapshot.exists()) {
-                        String plano = documentSnapshot.getString("planoSelecionado");
-                        if (plano == null) plano = documentSnapshot.getString("statusAssinatura");
+                        String status = documentSnapshot.getString("statusAssinatura");
+                        Long qtdPets = documentSnapshot.getLong("quantidadePets");
                         
-                        if (plano != null) {
-                            tvPlanoBadge.setText(plano);
+                        if ("ATIVO".equals(status) && qtdPets != null) {
+                            tvPlanoBadge.setText(qtdPets + " Pet(s) Assinado(s)");
+                        } else {
+                            tvPlanoBadge.setText("Plano Ativo");
                         }
                         
-                        // Mock de contagem de check-ins ou buscar de uma subcoleção futuramente
                         tvCheckinCount.setText("0"); 
                     }
                 });

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PetPass — QR Code de check-in (painel do petshop)</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#fafaf7;display:flex;flex-direction:column;align-items:center;padding:32px}
+  select{font-size:1.1rem;padding:8px;margin-bottom:24px}
+  #qr{background:#fff;padding:16px;border-radius:12px;box-shadow:0 2px 8px #0002}
+  code{margin-top:16px;color:#555}
+</style>
+</head>
+<body>
+  <h1>Check-in PetPass</h1>
+  <p>O cliente deve ler este QR Code pelo app para confirmar a presença.</p>
+  <select id="est">
+    <option value="1">Pet Spa Central</option>
+    <option value="2">Mundo Animal</option>
+    <option value="3">Dog &amp; Cia Premium</option>
+    <option value="4">Vet Care Clínica</option>
+    <option value="5">Pelo Perfeito Grooming</option>
+    <option value="6">Cantinho do Pet</option>
+    <option value="7">Patinhas Felizes</option>
+    <option value="8">Royal Pet Resort</option>
+  </select>
+  <div id="qr"></div>
+  <code id="payload"></code>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+    // O conteúdo precisa ser idêntico a AppConfig.checkInPayload(id) no app.
+    const qr = new QRCode(document.getElementById("qr"), {text: "", width: 280, height: 280});
+    function render(){
+      const text = "petpass://checkin/" + document.getElementById("est").value;
+      qr.clear(); qr.makeCode(text);
+      document.getElementById("payload").textContent = text;
+    }
+    document.getElementById("est").addEventListener("change", render);
+    render();
+  </script>
+</body>
+</html>
