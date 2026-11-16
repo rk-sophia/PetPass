@@ -10,7 +10,7 @@
         android:id="@+id/imgLogoPlanos"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/favcon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

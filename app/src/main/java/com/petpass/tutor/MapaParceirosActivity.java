@@ -15,12 +15,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.petpass.tutor.data.api.ApiClient;
 import com.petpass.tutor.data.api.PetShop;
 
@@ -29,16 +23,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MapaParceirosActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapaParceirosActivity extends AppCompatActivity {
 
     private enum Estado { CARREGANDO, CONTEUDO, VAZIO, ERRO }
 
     private ProgressBar progressBar;
     private View layoutConteudo, layoutErro;
     private TextView txtVazio, txtMensagemErro;
-    private Button btnTentarNovamente, btnGerarCheckin;
+    private Button btnTentarNovamente;
     
-    private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
 
@@ -53,27 +46,11 @@ public class MapaParceirosActivity extends AppCompatActivity implements OnMapRea
         layoutErro = findViewById(R.id.layoutErro);
         txtMensagemErro = findViewById(R.id.txtMensagemErro);
         btnTentarNovamente = findViewById(R.id.btnTentarNovamente);
-        btnGerarCheckin = findViewById(R.id.btnGerarCheckin);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFragment);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
-
         btnTentarNovamente.setOnClickListener(v -> verificarPermissaoELocalizar());
-        
-        btnGerarCheckin.setOnClickListener(v -> {
-            // Lógica para ir para a tela de Check-in (QR Code)
-            Toast.makeText(this, "Funcionalidade de Check-in em desenvolvimento", Toast.LENGTH_SHORT).show();
-        });
-    }
 
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
         verificarPermissaoELocalizar();
     }
 
@@ -87,22 +64,15 @@ public class MapaParceirosActivity extends AppCompatActivity implements OnMapRea
             return;
         }
 
-        if (mMap != null) {
-            mMap.setMyLocationEnabled(true);
-        }
-
         mostrarEstado(Estado.CARREGANDO);
         fusedLocationClient.getLastLocation()
             .addOnSuccessListener(this, location -> {
                 if (location != null) {
-                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    if (mMap != null) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f));
-                    }
                     buscarPetShops(location.getLatitude(), location.getLongitude());
                 } else {
+                    // Se não conseguir a localização, usa uma padrão (ex: SP) ou avisa o usuário
                     buscarPetShops(-23.55052, -46.633308);
-                    Toast.makeText(this, "Localização não encontrada. Usando padrão (São Paulo).", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Não foi possível obter localização exata. Usando padrão.", Toast.LENGTH_SHORT).show();
                 }
             })
             .addOnFailureListener(e -> {
@@ -130,16 +100,7 @@ public class MapaParceirosActivity extends AppCompatActivity implements OnMapRea
                 }
 
                 mostrarEstado(Estado.CONTEUDO);
-                if (mMap != null) {
-                    mMap.clear();
-                    for (PetShop ps : lista) {
-                        LatLng pos = new LatLng(ps.getLatitude(), ps.getLongitude());
-                        mMap.addMarker(new MarkerOptions()
-                                .position(pos)
-                                .title(ps.getNome())
-                                .snippet(ps.getEndereco()));
-                    }
-                }
+                // Aqui você integraria com o Google Maps para mostrar os markers
             }
 
             @Override
@@ -164,7 +125,7 @@ public class MapaParceirosActivity extends AppCompatActivity implements OnMapRea
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 verificarPermissaoELocalizar();
             } else {
-                Toast.makeText(this, "Permissão de localização negada. O mapa não poderá mostrar lojas próximas.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Permissão de localização negada", Toast.LENGTH_LONG).show();
                 mostrarEstado(Estado.ERRO);
                 txtMensagemErro.setText("O app precisa da localização para buscar petshops próximos.");
             }

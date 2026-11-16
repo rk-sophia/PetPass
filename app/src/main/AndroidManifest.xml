@@ -15,7 +15,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPShFtCUr-I3DpqpgPO25aKb8qv93ArdQ" />
+            android:value="SUA_CHAVE_API_DO_GOOGLE_MAPS_AQUI" />
 
         <activity
             android:name=".LoginActivity"
