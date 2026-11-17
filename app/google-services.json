@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "72359479034",
-    "project_id": "petpass-18ac1",
-    "storage_bucket": "petpass-18ac1.firebasestorage.app"
+    "project_number": "123456789012",
+    "project_id": "petpass-dev",
+    "storage_bucket": "petpass-dev.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:72359479034:android:62fc04d9cca26b557b2b43",
+        "mobilesdk_app_id": "1:123456789012:android:abcdef1234567890",
         "android_client_info": {
           "package_name": "com.petpass.tutor"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCBolYy3iRg7s0tFXNiM9GM2sen9G1yLLk"
+          "current_key": "AIzaSyDummyApiKeyForDevelopmentOnly12345"
         }
       ],
       "services": {
