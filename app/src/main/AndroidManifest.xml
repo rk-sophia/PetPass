@@ -5,34 +5,46 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/favcon"
+        android:icon="@mipmap/ic_launcher"
         android:label="PetPass Tutor"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPShFtCUr-I3DpqpgPO25aKb8qv93ArdQ" />
+            android:value="SUA_CHAVE_API_DO_GOOGLE_MAPS_AQUI" />
 
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".PlanosActivity" />
-        <activity android:name=".PerfilPetActivity" />
-        <activity android:name=".CheckoutActivity" />
-        <activity android:name=".MapaParceirosActivity" />
-        <activity android:name=".QrCodeCheckinActivity" />
-        <activity android:name=".CadastroActivity" />
-
+        <activity
+            android:name=".HomeDashboardActivity"
+            android:exported="false"
+            android:label="@string/title_activity_home_dashboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".CadastroPetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PlanosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MapaParceirosActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".QrCodeCheckinActivity"
+            android:screenOrientation="portrait" />
     </application>
+
 </manifest>

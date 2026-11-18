@@ -1,70 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <!-- Estado 1: CARREGANDO -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-
-    <!-- Estado 2: CONTEUDO -->
-    <LinearLayout
-        android:id="@+id/layoutConteudo"
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-        <fragment
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btnGerarCheckin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="#673AB7"
-            android:text="Selecionar Estabelecimento" />
-    </LinearLayout>
-
-    <!-- Estado 3: VAZIO -->
-    <TextView
-        android:id="@+id/txtVazio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nenhum pet shop parceiro encontrado na região."
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
-
-    <!-- Estado 4: ERRO -->
     <LinearLayout
-        android:id="@+id/layoutErro"
-        android:layout_width="wrap_content"
+        android:id="@+id/painelAgendamento"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:padding="16dp"
+        android:background="#FFFFFF">
 
         <TextView
-            android:id="@+id/txtMensagemErro"
+            android:id="@+id/tvNomePetShopSelecionado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Falha de conexão com a rede." />
+            android:text="Selecione um Pet Shop no mapa"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinnerServico"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerHorario"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp" />
+
+        <Spinner
+            android:id="@+id/spinnerLembrete"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="4dp" />
+
+        <CheckBox
+            android:id="@+id/cbAdicionarAgenda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salvar na agenda do celular (Google Calendar)"
+            android:checked="true" />
 
         <Button
-            android:id="@+id/btnTentarNovamente"
-            android:layout_width="wrap_content"
+            android:id="@+id/btnConfirmarAgendamento"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tentar Novamente" />
+            android:text="Agendar Banho / Tosa"
+            android:layout_marginTop="8dp" />
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>

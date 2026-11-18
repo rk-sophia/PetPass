@@ -1,19 +1,31 @@
 package com.petpass.tutor.data.api;
 
-public class Pet {
-    private String id;
-    private String nome;
-    private String raca;
-    private String porte;
+import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-    public Pet(String nome, String raca, String porte) {
-        this.nome = nome;
-        this.raca = raca;
-        this.porte = porte;
-    }
+public class Pet implements Serializable {
+    @SerializedName("id")
+    private String id;
+    @SerializedName("tutor_id")
+    private String tutorId;
+    @SerializedName("nome")
+    private String nome;
+    @SerializedName("especie")
+    private String especie;
+    @SerializedName("porte")
+    private String porte;
+    @SerializedName("plano_ativo")
+    private String planoAtivo;
+    @SerializedName("nivel_plano")
+    private int nivelPlano;
+    @SerializedName("total_checkins")
+    private int totalCheckins;
 
     public String getId() { return id; }
     public String getNome() { return nome; }
-    public String getRaca() { return raca; }
+    public String getEspecie() { return especie; }
     public String getPorte() { return porte; }
+    public String getPlanoAtivo() { return planoAtivo; }
+    public int getNivelPlano() { return nivelPlano; }
+    public int getTotalCheckins() { return totalCheckins; }
 }

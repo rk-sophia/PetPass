@@ -1,173 +1,152 @@
 package com.petpass.tutor;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.provider.CalendarContract;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.petpass.tutor.data.api.ApiClient;
-import com.petpass.tutor.data.api.PetShop;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+import com.petpass.tutor.data.api.*;
+import com.petpass.tutor.util.SessionManager;
 
-import java.util.List;
+import java.util.*;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapaParceirosActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private enum Estado { CARREGANDO, CONTEUDO, VAZIO, ERRO }
-
-    private ProgressBar progressBar;
-    private View layoutConteudo, layoutErro;
-    private TextView txtVazio, txtMensagemErro;
-    private Button btnTentarNovamente, btnGerarCheckin;
-    
     private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationClient;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private Pet petAtual;
+    private PetShop petShopSelecionado;
+    private TextView tvNomePetShop;
+    private Spinner spinnerServico, spinnerHorario, spinnerLembrete;
+    private CheckBox cbAdicionarAgenda;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mapa_parceiros);
 
-        progressBar = findViewById(R.id.progressBar);
-        layoutConteudo = findViewById(R.id.layoutConteudo);
-        txtVazio = findViewById(R.id.txtVazio);
-        layoutErro = findViewById(R.id.layoutErro);
-        txtMensagemErro = findViewById(R.id.txtMensagemErro);
-        btnTentarNovamente = findViewById(R.id.btnTentarNovamente);
-        btnGerarCheckin = findViewById(R.id.btnGerarCheckin);
+        session = new SessionManager(this);
+        petAtual = (Pet) getIntent().getSerializableExtra("PET_OBJ");
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        tvNomePetShop = findViewById(R.id.tvNomePetShopSelecionado);
+        spinnerServico = findViewById(R.id.spinnerServico);
+        spinnerHorario = findViewById(R.id.spinnerHorario);
+        spinnerLembrete = findViewById(R.id.spinnerLembrete);
+        cbAdicionarAgenda = findViewById(R.id.cbAdicionarAgenda);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFragment);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        spinnerServico.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"Banho Completo", "Banho + Tosa Higiênica", "Tosa na Máquina / Tesoura"}));
+        spinnerHorario.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"Amanhã - 10:00", "Amanhã - 14:30", "Sábado - 09:00"}));
+        spinnerLembrete.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                new String[]{"Lembrete: 1 hora antes", "Lembrete: No dia (08:00)", "Lembrete: 10 minutos antes"}));
 
-        btnTentarNovamente.setOnClickListener(v -> verificarPermissaoELocalizar());
-        
-        btnGerarCheckin.setOnClickListener(v -> {
-            // Lógica para ir para a tela de Check-in (QR Code)
-            Toast.makeText(this, "Funcionalidade de Check-in em desenvolvimento", Toast.LENGTH_SHORT).show();
-        });
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+        if (mapFragment != null) mapFragment.getMapAsync(this);
+
+        findViewById(R.id.btnConfirmarAgendamento).setOnClickListener(v -> validarEAgendar());
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        verificarPermissaoELocalizar();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-23.55052, -46.633308), 13f));
+        carregarPetShopsDaApi();
     }
 
-    private void verificarPermissaoELocalizar() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            
-            ActivityCompat.requestPermissions(this, 
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 
-                LOCATION_PERMISSION_REQUEST_CODE);
-            return;
-        }
-
-        if (mMap != null) {
-            mMap.setMyLocationEnabled(true);
-        }
-
-        mostrarEstado(Estado.CARREGANDO);
-        fusedLocationClient.getLastLocation()
-            .addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    if (mMap != null) {
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 15f));
-                    }
-                    buscarPetShops(location.getLatitude(), location.getLongitude());
-                } else {
-                    buscarPetShops(-23.55052, -46.633308);
-                    Toast.makeText(this, "Localização não encontrada. Usando padrão (São Paulo).", Toast.LENGTH_SHORT).show();
-                }
-            })
-            .addOnFailureListener(e -> {
-                txtMensagemErro.setText("Erro ao obter localização: " + e.getMessage());
-                mostrarEstado(Estado.ERRO);
-            });
-    }
-
-    private void buscarPetShops(double lat, double lng) {
-        Call<List<PetShop>> chamada = ApiClient.getService().listarPetShopsProximos(lat, lng);
-
-        chamada.enqueue(new Callback<List<PetShop>>() {
+    private void carregarPetShopsDaApi() {
+        ApiClient.getService().listarPetShops().enqueue(new Callback<List<PetShop>>() {
             @Override
             public void onResponse(Call<List<PetShop>> call, Response<List<PetShop>> response) {
-                if (!response.isSuccessful()) {
-                    txtMensagemErro.setText("Erro do servidor: " + response.code());
-                    mostrarEstado(Estado.ERRO);
-                    return;
+                if (!response.isSuccessful() || response.body() == null) return;
+
+                Map<Marker, PetShop> mapaMarcadores = new HashMap<>();
+                for (PetShop ps : response.body()) {
+                    Marker m = mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(ps.getLatitude(), ps.getLongitude()))
+                            .title(ps.getNome())
+                            .snippet("Plano mínimo: " + ps.getCategoriaMinima()));
+                    mapaMarcadores.put(m, ps);
                 }
 
-                List<PetShop> lista = response.body();
-                if (lista == null || lista.isEmpty()) {
-                    mostrarEstado(Estado.VAZIO);
-                    return;
-                }
-
-                mostrarEstado(Estado.CONTEUDO);
-                if (mMap != null) {
-                    mMap.clear();
-                    for (PetShop ps : lista) {
-                        LatLng pos = new LatLng(ps.getLatitude(), ps.getLongitude());
-                        mMap.addMarker(new MarkerOptions()
-                                .position(pos)
-                                .title(ps.getNome())
-                                .snippet(ps.getEndereco()));
+                mMap.setOnMarkerClickListener(marker -> {
+                    petShopSelecionado = mapaMarcadores.get(marker);
+                    if (petShopSelecionado != null) {
+                        tvNomePetShop.setText(petShopSelecionado.getNome() + " (" + petShopSelecionado.getCategoriaMinima() + ")");
                     }
-                }
+                    return false;
+                });
             }
 
             @Override
             public void onFailure(Call<List<PetShop>> call, Throwable t) {
-                txtMensagemErro.setText("Falha de conexão: " + t.getMessage());
-                mostrarEstado(Estado.ERRO);
+                Toast.makeText(MapaParceirosActivity.this, "Erro ao carregar mapa.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void mostrarEstado(Estado estado) {
-        progressBar.setVisibility(estado == Estado.CARREGANDO ? View.VISIBLE : View.GONE);
-        layoutConteudo.setVisibility(estado == Estado.CONTEUDO ? View.VISIBLE : View.GONE);
-        txtVazio.setVisibility(estado == Estado.VAZIO ? View.VISIBLE : View.GONE);
-        layoutErro.setVisibility(estado == Estado.ERRO ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                verificarPermissaoELocalizar();
-            } else {
-                Toast.makeText(this, "Permissão de localização negada. O mapa não poderá mostrar lojas próximas.", Toast.LENGTH_LONG).show();
-                mostrarEstado(Estado.ERRO);
-                txtMensagemErro.setText("O app precisa da localização para buscar petshops próximos.");
-            }
+    private void validarEAgendar() {
+        if (petShopSelecionado == null) {
+            Toast.makeText(this, "Toque em um marcador no mapa primeiro.", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        int nivelPet = (petAtual != null) ? petAtual.getNivelPlano() : 1;
+        if (nivelPet < petShopSelecionado.getNivelExigido()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Upgrade Necessário")
+                    .setMessage("Este parceiro exige o plano " + petShopSelecionado.getCategoriaMinima()
+                            + ". Deseja fazer upgrade do plano do seu pet agora?")
+                    .setPositiveButton("Fazer Upgrade", (dialog, which) -> {
+                        Intent intent = new Intent(this, PlanosActivity.class);
+                        intent.putExtra("PET_OBJ", petAtual);
+                        startActivity(intent);
+                    })
+                    .setNegativeButton("Escolher Outro", null)
+                    .show();
+            return;
+        }
+
+        String servico = spinnerServico.getSelectedItem().toString();
+        String horario = spinnerHorario.getSelectedItem().toString();
+
+        Agendamento novo = new Agendamento(
+                session.getTutorId(),
+                petAtual != null ? petAtual.getId() : "1",
+                petShopSelecionado.getId(),
+                servico,
+                horario
+        );
+
+        ApiClient.getService().criarAgendamento(novo).enqueue(new Callback<Agendamento>() {
+            @Override
+            public void onResponse(Call<Agendamento> call, Response<Agendamento> response) {
+                if (response.isSuccessful()) {
+                    if (cbAdicionarAgenda.isChecked()) {
+                        Intent calIntent = new Intent(Intent.ACTION_INSERT)
+                                .setData(CalendarContract.Events.CONTENT_URI)
+                                .putExtra(CalendarContract.Events.TITLE, "PetPass: " + servico)
+                                .putExtra(CalendarContract.Events.EVENT_LOCATION, petShopSelecionado.getNome());
+                        startActivity(calIntent);
+                    }
+                    Toast.makeText(MapaParceirosActivity.this, "Agendamento confirmado!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(MapaParceirosActivity.this, HomeDashboardActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Agendamento> call, Throwable t) {
+                Toast.makeText(MapaParceirosActivity.this, "Erro ao agendar.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

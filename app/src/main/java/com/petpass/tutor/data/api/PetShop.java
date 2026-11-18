@@ -6,22 +6,24 @@ import java.io.Serializable;
 public class PetShop implements Serializable {
     @SerializedName("id")
     private String id;
-
     @SerializedName("nome")
     private String nome;
-
     @SerializedName("endereco")
     private String endereco;
-    
     @SerializedName("latitude")
     private double latitude;
-
     @SerializedName("longitude")
     private double longitude;
+    @SerializedName("categoria_minima")
+    private String categoriaMinima;
+    @SerializedName("nivel_exigido")
+    private int nivelExigido;
 
     public String getId() { return id; }
     public String getNome() { return nome; }
     public String getEndereco() { return endereco; }
     public double getLatitude() { return latitude; }
     public double getLongitude() { return longitude; }
+    public String getCategoriaMinima() { return categoriaMinima; }
+    public int getNivelExigido() { return nivelExigido; }
 }

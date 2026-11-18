@@ -1,176 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/imgLogoPlanos"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="52dp"
-        android:src="@drawable/favcon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTituloPlanos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Escolha o Plano de Banho &amp; Tosa"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogoPlanos" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTituloPlanos">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTituloPlanoPet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Planos Linha Pata"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgPlanos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="16dp">
 
-            <!-- Plano Premium -->
-            <androidx.cardview.widget.CardView
+            <RadioButton
+                android:id="@+id/rbBronze"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="🥉 Pata de Bronze — R$ 69,90/mês (2 Banhos)" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Premium"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 139,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• 4 Banhos por mês\n• 1 Tosa higiênica incluída" />
-
-                    <Button
-                        android:id="@+id/btnAssinarPremium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Premium" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Plano Gold -->
-            <androidx.cardview.widget.CardView
+            <RadioButton
+                android:id="@+id/rbPrata"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="🥈 Pata de Prata — R$ 119,90/mês (4 Banhos)" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Gold"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 199,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• 6 Banhos por mês\n• 2 Tosas completas\n• Hidratação inclusa" />
-
-                    <Button
-                        android:id="@+id/btnAssinarGold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Gold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Plano Platina -->
-            <androidx.cardview.widget.CardView
+            <RadioButton
+                android:id="@+id/rbOuro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="🥇 Pata de Ouro — R$ 169,90/mês (4 Banhos + 1 Tosa)"
+                android:checked="true" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+            <RadioButton
+                android:id="@+id/rbDiamante"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💎 Pata de Diamante — R$ 249,90/mês (Ilimitado + VIP)" />
+        </RadioGroup>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Platina"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginVertical="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 299,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forma de Pagamento"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Banhos ilimitados\n• Tosas ilimitadas\n• Leva e Traz incluso" />
+        <RadioGroup
+            android:id="@+id/rgPagamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
-                    <Button
-                        android:id="@+id/btnAssinarPlatina"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Platina" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            <RadioButton
+                android:id="@+id/rbPix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PIX Instantâneo"
+                android:checked="true" />
 
+            <RadioButton
+                android:id="@+id/rbCartao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cartão de Crédito"
+                android:layout_marginStart="16dp" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/layoutPix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <ImageView
+                android:id="@+id/imgQrPix"
+                android:layout_width="180dp"
+                android:layout_height="180dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Escaneie o PIX acima para ativação imediata" />
         </LinearLayout>
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/layoutCartao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="12dp">
+
+            <EditText
+                android:id="@+id/etNumeroCartao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Número do Cartão"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/etValidadeCvv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Validade (MM/AA) e CVV" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnConfirmarAssinatura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar Pagamento e Ativar Plano"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>
