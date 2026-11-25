@@ -12,8 +12,16 @@ public class PetShop implements Serializable {
 
     @SerializedName("endereco")
     private String endereco;
+    
+    @SerializedName("latitude")
+    private double latitude;
+
+    @SerializedName("longitude")
+    private double longitude;
 
     public String getId() { return id; }
     public String getNome() { return nome; }
     public String getEndereco() { return endereco; }
+    public double getLatitude() { return latitude; }
+    public double getLongitude() { return longitude; }
 }
