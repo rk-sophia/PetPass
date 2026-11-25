@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity
             android:name=".HomeDashboardActivity"
             android:exported="false"
@@ -45,6 +46,16 @@
         <activity
             android:name=".QrCodeCheckinActivity"
             android:screenOrientation="portrait" />
+=======
+
+        <activity android:name=".PlanosActivity" />
+        <activity android:name=".PerfilPetActivity" />
+        <activity android:name=".CheckoutActivity" />
+        <activity android:name=".MapaParceirosActivity" />
+        <activity android:name=".QrCodeCheckinActivity" />
+        <activity android:name=".CadastroActivity" />
+
+>>>>>>> parent of 1603b84 (deus é mais, não ta funcionando a pg3)
     </application>
 
 </manifest>
