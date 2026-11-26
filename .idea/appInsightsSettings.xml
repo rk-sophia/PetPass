@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.petpass.tutor" />
-                  <option name="mobileSdkAppId" value="1:72359479034:android:62fc04d9cca26b557b2b43" />
-                  <option name="projectId" value="petpass-18ac1" />
-                  <option name="projectNumber" value="72359479034" />
+                  <option name="mobileSdkAppId" value="1:123456789012:android:abcdef1234567890" />
+                  <option name="projectId" value="petpass-dev" />
+                  <option name="projectNumber" value="123456789012" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
