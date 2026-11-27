@@ -3,43 +3,35 @@ package com.petpass.tutor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class PlanosActivity extends AppCompatActivity {
+
+    private String petId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planos);
 
-        Button btnPremium = findViewById(R.id.btnAssinarPremium);
+        petId = getIntent().getStringExtra("PET_ID");
+
+        Button btnSilver = findViewById(R.id.btnAssinarSilver);
         Button btnGold = findViewById(R.id.btnAssinarGold);
-        Button btnPlatina = findViewById(R.id.btnAssinarPlatina);
+        Button btnPlatinum = findViewById(R.id.btnAssinarPlatinum);
 
-        btnPremium.setOnClickListener(v -> abrirPerfilPet("Plano Premium", new ArrayList<>(Arrays.asList(
-                "4 Banhos por mês",
-                "1 Tosa higiênica incluída"
-        ))));
-
-        btnGold.setOnClickListener(v -> abrirPerfilPet("Plano Gold", new ArrayList<>(Arrays.asList(
-                "6 Banhos por mês",
-                "2 Tosas completas",
-                "Hidratação inclusa"
-        ))));
-
-        btnPlatina.setOnClickListener(v -> abrirPerfilPet("Plano Platina", new ArrayList<>(Arrays.asList(
-                "Banhos ilimitados",
-                "Tosas ilimitadas",
-                "Leva e Traz incluso"
-        ))));
+        btnSilver.setOnClickListener(v -> irParaPagamento("SILVER", "R$ 59,90"));
+        btnGold.setOnClickListener(v -> irParaPagamento("GOLD", "R$ 99,90"));
+        btnPlatinum.setOnClickListener(v -> irParaPagamento("PLATINUM", "R$ 159,90"));
     }
 
-    private void abrirPerfilPet(String nomePlano, ArrayList<String> beneficios) {
-        Intent intent = new Intent(PlanosActivity.this, PerfilPetActivity.class);
-        intent.putExtra("NOME_PLANO", nomePlano);
-        intent.putStringArrayListExtra("BENEFICIOS", beneficios);
-        startActivity(intent);
+    private void irParaPagamento(String plano, String valor) {
+        Intent i = new Intent(this, PagamentoActivity.class);
+        i.putExtra("PET_ID", petId);
+        i.putExtra("PLANO_ESCOLHIDO", plano);
+        i.putExtra("VALOR_PLANO", valor);
+        startActivity(i);
+        finish();
     }
 }

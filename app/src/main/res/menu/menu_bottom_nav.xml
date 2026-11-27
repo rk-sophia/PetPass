@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_inicio"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Início" />
+    <item
+        android:id="@+id/nav_explorar"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Pet Shops" />
+    <item
+        android:id="@+id/nav_checkin"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Check-in" />
+    <item
+        android:id="@+id/nav_perfil"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Perfil" />
+</menu>

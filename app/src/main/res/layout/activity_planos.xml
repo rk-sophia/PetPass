@@ -1,176 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:background="@color/roxo_profundo_bg"
+    android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/imgLogoPlanos"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="52dp"
-        android:src="@drawable/favcon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvTituloPlanos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Escolha o Plano de Banho &amp; Tosa"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogoPlanos" />
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTituloPlanos">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escolha o Plano do Pet"
+            android:textColor="@color/branco_suave"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cada pet possui sua própria assinatura e benefícios."
+            android:textColor="@color/lilas_claro"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- PLANO SILVER -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@color/roxo_escuro_card"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp">
 
-            <!-- Plano Premium -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="PET SILVER • R$ 59,90/mês"
+                android:textColor="@color/cinza_suave"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Premium"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 139,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• 4 Banhos por mês\n• 1 Tosa higiênica incluída" />
-
-                    <Button
-                        android:id="@+id/btnAssinarPremium"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Premium" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Plano Gold -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:layout_marginTop="6dp"
+                android:text="• 2 banhos mensais em lojas Silver\n• Desconto de 5% em lojas parceiras\n• Acesso ao ranking de check-ins"
+                android:textColor="@color/off_white"
+                android:textSize="13sp"
+                android:layout_marginBottom="14dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Gold"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 199,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• 6 Banhos por mês\n• 2 Tosas completas\n• Hidratação inclusa" />
-
-                    <Button
-                        android:id="@+id/btnAssinarGold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Gold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Plano Platina -->
-            <androidx.cardview.widget.CardView
+            <Button
+                android:id="@+id/btnAssinarSilver"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Plano Platina"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="R$ 299,90 / mês"
-                        android:textColor="#9C4DEB"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="• Banhos ilimitados\n• Tosas ilimitadas\n• Leva e Traz incluso" />
-
-                    <Button
-                        android:id="@+id/btnAssinarPlatina"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:backgroundTint="#9C4DEB"
-                        android:text="Assinar Platina" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
+                android:layout_height="46dp"
+                android:backgroundTint="@color/roxo_eletrico"
+                android:text="SELECIONAR SILVER"
+                android:textColor="@color/branco_suave"
+                android:textStyle="bold" />
         </LinearLayout>
-    </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- PLANO GOLD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/roxo_escuro_card"
+            android:orientation="vertical"
+            android:padding="18dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PET GOLD • R$ 99,90/mês"
+                android:textColor="@color/amarelo_luz"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="• 4 banhos + 1 tosa higiênica/mês\n• Acesso a lojas Silver e Gold\n• 10% de desconto + brindes mensais"
+                android:textColor="@color/off_white"
+                android:textSize="13sp"
+                android:layout_marginBottom="14dp" />
+
+            <Button
+                android:id="@+id/btnAssinarGold"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:backgroundTint="@color/roxo_neon"
+                android:text="SELECIONAR GOLD"
+                android:textColor="@color/branco_suave"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- PLANO PLATINUM -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/roxo_base"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PET PLATINUM • R$ 159,90/mês"
+                android:textColor="@color/dourado_original"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="• Banhos ilimitados + Tosa completa\n• Acesso total a todas as lojas Premium\n• 20% de desconto + kit VIP"
+                android:textColor="@color/branco_suave"
+                android:textSize="13sp"
+                android:layout_marginBottom="14dp" />
+
+            <Button
+                android:id="@+id/btnAssinarPlatinum"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:backgroundTint="@color/dourado_original"
+                android:text="SELECIONAR PLATINUM"
+                android:textColor="@color/roxo_profundo_bg"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
