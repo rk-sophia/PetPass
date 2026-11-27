@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/roxo_profundo_bg"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtResumoPlanoPagamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assinatura: PLANO GOLD (R$ 99,90)"
+            android:textColor="@color/dourado_claro"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pagamento seguro: seus dados são tokenizados e não ficam salvos no banco (LGPD / PCI-DSS)."
+            android:textColor="@color/lilas_claro"
+            android:textSize="12sp"
+            android:layout_marginBottom="20dp" />
+
+        <EditText
+            android:id="@+id/edtNomeCartao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Nome impresso no cartão"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/edtNumeroCartao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Número do cartão (16 dígitos)"
+            android:inputType="number"
+            android:maxLength="16"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/edtValidadeCartao"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:background="@color/roxo_escuro_card"
+                android:hint="MM/AA"
+                android:padding="12dp"
+                android:textColor="@color/branco_suave"
+                android:textColorHint="@color/cinza_suave" />
+
+            <EditText
+                android:id="@+id/edtCvvCartao"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@color/roxo_escuro_card"
+                android:hint="CVV"
+                android:inputType="numberPassword"
+                android:maxLength="4"
+                android:padding="12dp"
+                android:textColor="@color/branco_suave"
+                android:textColorHint="@color/cinza_suave" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnConfirmarPagamento"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/roxo_neon"
+            android:text="FINALIZAR ASSINATURA"
+            android:textColor="@color/branco_suave"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
