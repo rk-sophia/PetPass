@@ -1,4 +1,4 @@
-package com.petpass.tutor.models;
+package com.example.petpass.models;
 
 public class Usuario {
     private String uid;

@@ -46,15 +46,18 @@ public class CadastroPetActivity extends AppCompatActivity {
         btnSalvarPet = findViewById(R.id.btnSalvarPet);
 
         configurarSpinners();
+
         btnSalvarPet.setOnClickListener(v -> salvarPetNoFirestore());
     }
 
     private void configurarSpinners() {
         String[] especies = {"Cachorro", "Gato", "Outros"};
-        spnEspecie.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, especies));
+        ArrayAdapter<String> adapterEspecie = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, especies);
+        spnEspecie.setAdapter(adapterEspecie);
 
         String[] portes = {"Porte Pequeno", "Porte Médio", "Porte Grande"};
-        spnPorte.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, portes));
+        ArrayAdapter<String> adapterPorte = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, portes);
+        spnPorte.setAdapter(adapterPorte);
 
         spnEspecie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -103,14 +106,12 @@ public class CadastroPetActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, nome + " cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                     if (primeiroCadastro) {
+                        // Fluxo guiado: após cadastrar 1º pet, direciona para oferta de planos
                         Intent i = new Intent(this, PlanosActivity.class);
                         i.putExtra("PET_ID", petId);
                         startActivity(i);
                     }
                     finish();
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Erro ao salvar pet: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                );
+                });
     }
 }
