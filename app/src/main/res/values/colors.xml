@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="petpass_purple">#9C4DEB</color>
-    <color name="petpass_gold">#FFD700</color>
-    <color name="petpass_platina">#A0A0A0</color>
-    <color name="petpass_text_secondary">#757575</color>
+    <!-- Tons Profundos e Escuros -->
+    <color name="roxo_profundo_bg">#1A0133</color>
+    <color name="roxo_escuro_card">#240242</color>
+    <color name="roxo_base">#31035C</color>
+    <color name="roxo_suave">#3D0573</color>
+    <color name="roxo_ultramarinho">#4A088A</color>
+
+    <!-- Tons Vibrantes (Botões e Destaques) -->
+    <color name="roxo_eletrico">#5C0AB8</color>
+    <color name="roxo_neon">#730EE6</color>
+    <color name="violeta_vivo">#8A2BE2</color>
+    <color name="roxo_acento">#9D4EED</color>
+    <color name="lilas_vibrante">#C77DFF</color>
+
+    <!-- Tons Claros (Textos e Superfícies) -->
+    <color name="lilas_claro">#E0AAFF</color>
+    <color name="rosa_pastelo">#F1C0E8</color>
+    <color name="cinza_suave">#CFCCC8</color>
+    <color name="off_white">#E9E6E1</color>
+    <color name="branco_suave">#F8F7F5</color>
+
+    <!-- Destaques Dourados (Planos e Ranking) -->
+    <color name="dourado_queimado">#B37400</color>
+    <color name="ouro_nobre">#D98C00</color>
+    <color name="dourado_original">#F3A812</color>
+    <color name="amarelo_luz">#FFBE3B</color>
+    <color name="dourado_claro">#FFD275</color>
 </resources>

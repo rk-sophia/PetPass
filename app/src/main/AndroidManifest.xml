@@ -12,7 +12,6 @@
         android:icon="@drawable/favcon"
         android:label="PetPass Tutor"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBPShFtCUr-I3DpqpgPO25aKb8qv93ArdQ" />
@@ -22,10 +21,10 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".HomeActivity" />
         <activity android:name=".PlanosActivity" />
         <activity android:name=".PerfilPetActivity" />
@@ -33,6 +32,10 @@
         <activity android:name=".MapaParceirosActivity" />
         <activity android:name=".QrCodeCheckinActivity" />
         <activity android:name=".CadastroActivity" />
-
+        <activity
+            android:name=".CadastroPetActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
     </application>
+
 </manifest>

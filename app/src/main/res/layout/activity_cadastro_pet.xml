@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/roxo_profundo_bg"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cadastrar Meu Pet"
+            android:textColor="@color/branco_suave"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <Spinner
+            android:id="@+id/spnEspecie"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/off_white"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/edtEspecieOutro"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Qual espécie? (Ex: Coelho, Hamster)"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp"/>
+
+        <TextView
+            android:id="@+id/txtAvisoOutros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nota: Demais pets participam apenas de descontos nas lojas e brindes."
+            android:textColor="@color/amarelo_luz"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/edtNomePet"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Nome do Pet"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/edtIdadePet"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Idade (Ex: 2 anos)"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/edtRacaPet"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Raça"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp"/>
+
+        <Spinner
+            android:id="@+id/spnPortePet"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/off_white"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnSalvarPet"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/roxo_neon"
+            android:text="SALVAR PET E CONTINUAR"
+            android:textColor="@color/branco_suave"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+</ScrollView>

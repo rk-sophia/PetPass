@@ -13,6 +13,7 @@ playServicesMaps = "20.1.0"
 playServicesLocation = "21.1.0"
 zxingAndroidEmbedded = "4.3.0"
 recyclerview = "1.4.0"
+activityKtx = "1.13.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,6 +31,7 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 zxing-android-embedded = { group = "com.journeyapps", name = "zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
