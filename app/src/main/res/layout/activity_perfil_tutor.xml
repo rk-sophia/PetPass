@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/roxo_profundo_bg"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meu Perfil &amp; Pets"
+            android:textColor="@color/branco_suave"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <EditText
+            android:id="@+id/edtNomePerfil"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Nome Completo"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="12dp" />
+
+        <EditText
+            android:id="@+id/edtEnderecoPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/roxo_escuro_card"
+            android:hint="Endereço"
+            android:padding="12dp"
+            android:textColor="@color/branco_suave"
+            android:textColorHint="@color/cinza_suave"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnSalvarPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/roxo_neon"
+            android:text="ATUALIZAR DADOS"
+            android:textColor="@color/branco_suave"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Meus Pets e Assinaturas:"
+            android:textColor="@color/amarelo_luz"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/txtListaPetsPerfil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/roxo_escuro_card"
+            android:padding="14dp"
+            android:text="Carregando pets..."
+            android:textColor="@color/branco_suave"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnAdicionarNovoPet"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/dourado_original"
+            android:text="+ CADASTRAR OUTRO PET"
+            android:textColor="@color/roxo_profundo_bg"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
