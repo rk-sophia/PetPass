@@ -1,57 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.petpass.tutor">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/favcon"
-        android:label="PetPass Tutor"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPShFtCUr-I3DpqpgPO25aKb8qv93ArdQ" />
+        android:icon="@drawable/logo"
+        android:label="PetPass"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
 
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".CadastroTutorActivity" />
+        <activity android:name=".CadastroPetActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".PlanosActivity" />
+        <activity android:name=".PagamentoActivity" />
+        <activity android:name=".BuscaPetshopsActivity" />
+        <activity android:name=".AgendamentoActivity" />
         <activity android:name=".PerfilTutorActivity" />
-        <activity android:name=".CheckoutActivity" />
-        <activity android:name=".MapaParceirosActivity" />
-        <activity android:name=".QrCodeCheckinActivity" />
-        <activity android:name=".CadastroActivity" />
-        <activity
-            android:name=".CadastroPetActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".CadastroTutorActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".PagamentoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".BuscaPetshopsActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".AgendamentoActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".LeitorQrCheckinActivity" />
+        <activity android:name=".AdminActivity" />
+        <activity android:name=".GerentePetshopActivity" />
+
     </application>
 
 </manifest>

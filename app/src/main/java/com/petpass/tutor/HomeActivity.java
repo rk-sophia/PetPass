@@ -3,11 +3,9 @@ package com.petpass.tutor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -15,33 +13,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.petpass.tutor.models.Pet;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.petpass.tutor.models.Pet;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private TextView txtSaudacao, txtBadgePlano, txtStatusAgendamento, txtNomePetshop, txtDetalhesServico, txtQtdCheckins, txtNivelRanking;
     private Spinner spnSeletorPet;
-    private TextView txtQtdCheckins, txtLocalizacaoAtual, txtVerTudo;
-    private TextView txtDataAgendamento, txtNomePetshopAgendado, txtServicoAgendado;
-    private EditText edtBuscaHome;
-    private Button btnFiltroPlano, btnFiltroBanho, btnFiltroTosa, btnFiltroBrindes, btnFazerCheckin;
-    private ImageButton btnSairApp;
-    private CardView cardAgendamentoAtivo, cardBannerPrincipal;
-    private LinearLayout layoutLocalizacao;
-    private RecyclerView rvExtraServices;
-    private BottomNavigationView bottomNavigation;
+    private Button btnAcaoPrincipal;
+    private ImageButton btnSair;
+    private LinearLayout btnBuscaPetshops, bannerUpgrade, cardCatBanho, cardCatTosa, cardCatBrindes;
+    private BottomNavigationView bottomNav;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -61,8 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         uid = mAuth.getCurrentUser().getUid();
 
         inicializarComponentes();
-        configurarServicosExtras();
-        carregarLocalizacaoTutor();
+        carregarDadosTutor();
         carregarPetsDoTutor();
         configurarEventos();
     }
@@ -71,54 +60,37 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (petSelecionado != null) {
-            atualizarDadosDoPet(petSelecionado);
+            atualizarDashboardDoPet(petSelecionado);
         }
     }
 
     private void inicializarComponentes() {
+        txtSaudacao = findViewById(R.id.txtSaudacaoTutor);
+        txtBadgePlano = findViewById(R.id.txtBadgePlano);
         spnSeletorPet = findViewById(R.id.spnSeletorPetHome);
+        txtStatusAgendamento = findViewById(R.id.txtStatusAgendamento);
+        txtNomePetshop = findViewById(R.id.txtNomePetshopAgendado);
+        txtDetalhesServico = findViewById(R.id.txtDetalhesServicoAgendado);
+        btnAcaoPrincipal = findViewById(R.id.btnAcaoPrincipalCard);
         txtQtdCheckins = findViewById(R.id.txtQtdCheckins);
-        btnSairApp = findViewById(R.id.btnSairApp);
-
-        edtBuscaHome = findViewById(R.id.edtBuscaHome);
-        btnFiltroPlano = findViewById(R.id.btnFiltroPlano);
-        btnFiltroBanho = findViewById(R.id.btnFiltroBanho);
-        btnFiltroTosa = findViewById(R.id.btnFiltroTosa);
-        btnFiltroBrindes = findViewById(R.id.btnFiltroBrindes);
-
-        layoutLocalizacao = findViewById(R.id.layoutLocalizacao);
-        txtLocalizacaoAtual = findViewById(R.id.txtLocalizacaoAtual);
-
-        cardAgendamentoAtivo = findViewById(R.id.cardAgendamentoAtivo);
-        txtDataAgendamento = findViewById(R.id.txtDataAgendamento);
-        txtNomePetshopAgendado = findViewById(R.id.txtNomePetshopAgendado);
-        txtServicoAgendado = findViewById(R.id.txtServicoAgendado);
-        btnFazerCheckin = findViewById(R.id.btnFazerCheckin);
-
-        cardBannerPrincipal = findViewById(R.id.cardBannerPrincipal);
-        txtVerTudo = findViewById(R.id.txtVerTudo);
-        rvExtraServices = findViewById(R.id.rvExtraServices);
-        bottomNavigation = findViewById(R.id.bottomNavigation);
+        txtNivelRanking = findViewById(R.id.txtNivelRankingPet);
+        btnSair = findViewById(R.id.btnSairApp);
+        btnBuscaPetshops = findViewById(R.id.btnBarraBuscaPetshops);
+        bannerUpgrade = findViewById(R.id.bannerUpgradePlano);
+        cardCatBanho = findViewById(R.id.cardCatBanho);
+        cardCatTosa = findViewById(R.id.cardCatTosa);
+        cardCatBrindes = findViewById(R.id.cardCatBrindes);
+        bottomNav = findViewById(R.id.bottomNavigation);
     }
 
-    private void configurarServicosExtras() {
-        List<String> servicos = Arrays.asList(
-                "Banho Relaxante com Ozônio",
-                "Tosa Higiênica & Hidratação",
-                "Spa de Patinhas & Corte de Unhas",
-                "Escovação de Pelos & Perfume Pet"
-        );
-        rvExtraServices.setLayoutManager(new LinearLayoutManager(this));
-        rvExtraServices.setAdapter(new ServicoExtraAdapter(servicos, servico -> abrirBuscaPetshops(servico)));
-    }
-
-    private void carregarLocalizacaoTutor() {
+    private void carregarDadosTutor() {
         db.collection("usuarios").document(uid).get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
-                        String endereco = doc.getString("endereco");
-                        if (endereco != null && !endereco.isEmpty()) {
-                            txtLocalizacaoAtual.setText(" " + endereco);
+                        String nome = doc.getString("nomeCompleto");
+                        if (nome != null && !nome.isEmpty()) {
+                            String primeiroNome = nome.split(" ")[0];
+                            txtSaudacao.setText("Olá, " + primeiroNome + " 👋");
                         }
                     }
                 });
@@ -131,10 +103,10 @@ public class HomeActivity extends AppCompatActivity {
                     List<String> nomesPets = new ArrayList<>();
 
                     for (DocumentSnapshot doc : querySnapshot) {
-                        Pet pet = doc.toObject(Pet.class);
-                        if (pet != null) {
-                            listaPets.add(pet);
-                            nomesPets.add(pet.getNome());
+                        Pet p = doc.toObject(Pet.class);
+                        if (p != null) {
+                            listaPets.add(p);
+                            nomesPets.add("🐾 " + p.getNome());
                         }
                     }
 
@@ -146,13 +118,20 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
-    private void atualizarDadosDoPet(Pet pet) {
-        // Atualiza plano no botão de filtro e check-ins no topo
+    private void atualizarDashboardDoPet(Pet pet) {
         String plano = pet.getPlanoAtivo() != null ? pet.getPlanoAtivo() : "NENHUM";
-        btnFiltroPlano.setText("NENHUM".equals(plano) ? "Assinar Plano ▾" : plano + " ▾");
-        txtQtdCheckins.setText("🐾 " + pet.getCheckinsRealizados() + " check-ins");
+        txtBadgePlano.setText("NENHUM".equals(plano) ? "SEM PLANO" : "PLANO " + plano);
 
-        // Busca próximo agendamento ativo no Firestore
+        int checkins = pet.getCheckinsRealizados();
+        txtQtdCheckins.setText(String.valueOf(checkins));
+        if (checkins >= 10) {
+            txtNivelRanking.setText("Nível: Pet VIP Ouro 🏆");
+        } else if (checkins >= 4) {
+            txtNivelRanking.setText("Nível: Pet Frequente ⭐");
+        } else {
+            txtNivelRanking.setText("Nível: Pet Iniciante 🐾");
+        }
+
         db.collection("agendamentos")
                 .whereEqualTo("tutorUid", uid)
                 .whereEqualTo("petId", pet.getPetId())
@@ -164,22 +143,28 @@ public class HomeActivity extends AppCompatActivity {
                     if (!snap.isEmpty()) {
                         DocumentSnapshot ag = snap.getDocuments().get(0);
                         agendamentoAtivoId = ag.getId();
-
-                        cardAgendamentoAtivo.setVisibility(View.VISIBLE);
-                        txtDataAgendamento.setText("PRÓXIMO • " + ag.getString("dataHoraTexto"));
-                        txtNomePetshopAgendado.setText(ag.getString("petshopNome"));
-                        txtServicoAgendado.setText(ag.getString("servico") + " • " + pet.getNome());
-
+                        String shopNome = ag.getString("petshopNome");
+                        String servico = ag.getString("servico");
+                        String dataTexto = ag.getString("dataHoraTexto");
                         Long dataMillis = ag.getLong("dataHoraMillis");
+
+                        txtNomePetshop.setText(shopNome);
+                        txtDetalhesServico.setText(servico + " • " + pet.getNome());
+                        txtStatusAgendamento.setText(dataTexto);
+                        btnAcaoPrincipal.setText("FAZER CHECK-IN (LER QR CODE)");
+
                         if (dataMillis != null) {
                             long diff = dataMillis - System.currentTimeMillis();
                             if (diff > 0 && diff <= 7200000) {
-                                Toast.makeText(this, "Lembrete: Seu agendamento está próximo!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, "Lembrete: Horário próximo em " + shopNome + "!", Toast.LENGTH_LONG).show();
                             }
                         }
                     } else {
                         agendamentoAtivoId = null;
-                        cardAgendamentoAtivo.setVisibility(View.GONE);
+                        txtStatusAgendamento.setText("Sem reserva");
+                        txtNomePetshop.setText("Nenhum horário agendado");
+                        txtDetalhesServico.setText("Toque em buscar para agendar o cuidado do seu pet");
+                        btnAcaoPrincipal.setText("AGENDAR SERVIÇO AGORA");
                     }
                 });
     }
@@ -189,50 +174,52 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 petSelecionado = listaPets.get(position);
-                atualizarDadosDoPet(petSelecionado);
+                atualizarDashboardDoPet(petSelecionado);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Busca ao apertar Enter/Lupa no teclado
-        edtBuscaHome.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                abrirBuscaPetshops(edtBuscaHome.getText().toString().trim());
-                return true;
+        btnAcaoPrincipal.setOnClickListener(v -> {
+            if (petSelecionado == null) return;
+            if (agendamentoAtivoId != null) {
+                Intent i = new Intent(this, LeitorQrCheckinActivity.class);
+                i.putExtra("AGENDAMENTO_ID", agendamentoAtivoId);
+                i.putExtra("PET_ID", petSelecionado.getPetId());
+                startActivity(i);
+            } else {
+                abrirBuscaPetshops();
             }
-            return false;
         });
 
-        // Botões de filtro
-        btnFiltroPlano.setOnClickListener(v -> abrirTelaPlanos());
-        btnFiltroBanho.setOnClickListener(v -> abrirBuscaPetshops("Banho"));
-        btnFiltroTosa.setOnClickListener(v -> abrirBuscaPetshops("Tosa"));
-        btnFiltroBrindes.setOnClickListener(v -> abrirBuscaPetshops("Brindes"));
+        btnBuscaPetshops.setOnClickListener(v -> abrirBuscaPetshops());
+        cardCatBanho.setOnClickListener(v -> abrirBuscaPetshops());
+        cardCatTosa.setOnClickListener(v -> abrirBuscaPetshops());
+        cardCatBrindes.setOnClickListener(v -> abrirBuscaPetshops());
 
-        // Localização, Banner e Ver Tudo
-        layoutLocalizacao.setOnClickListener(v -> abrirBuscaPetshops(""));
-        cardBannerPrincipal.setOnClickListener(v -> abrirTelaPlanos());
-        txtVerTudo.setOnClickListener(v -> abrirBuscaPetshops(""));
+        txtBadgePlano.setOnClickListener(v -> abrirTelaPlanos());
+        bannerUpgrade.setOnClickListener(v -> abrirTelaPlanos());
 
-        // Check-in via QR Code
-        btnFazerCheckin.setOnClickListener(v -> abrirLeitorQrCode());
-
-        // Sair (Logout)
-        btnSairApp.setOnClickListener(v -> {
+        btnSair.setOnClickListener(v -> {
             mAuth.signOut();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         });
 
-        // Menu Inferior
-        bottomNavigation.setOnItemSelectedListener(item -> {
+        bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_explorar) {
-                abrirBuscaPetshops("");
+                abrirBuscaPetshops();
                 return true;
             } else if (id == R.id.nav_checkin) {
-                abrirLeitorQrCode();
+                if (agendamentoAtivoId != null) {
+                    Intent i = new Intent(this, LeitorQrCheckinActivity.class);
+                    i.putExtra("AGENDAMENTO_ID", agendamentoAtivoId);
+                    i.putExtra("PET_ID", petSelecionado.getPetId());
+                    startActivity(i);
+                } else {
+                    Toast.makeText(this, "Você precisa ter um agendamento ativo para fazer check-in.", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             } else if (id == R.id.nav_perfil) {
                 startActivity(new Intent(this, PerfilTutorActivity.class));
@@ -242,13 +229,12 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void abrirBuscaPetshops(String filtroTexto) {
+    private void abrirBuscaPetshops() {
         if (petSelecionado == null) return;
         Intent i = new Intent(this, BuscaPetshopsActivity.class);
         i.putExtra("PET_ID", petSelecionado.getPetId());
         i.putExtra("PET_NOME", petSelecionado.getNome());
         i.putExtra("PLANO_ATIVO", petSelecionado.getPlanoAtivo());
-        i.putExtra("FILTRO", filtroTexto);
         startActivity(i);
     }
 
@@ -257,16 +243,5 @@ public class HomeActivity extends AppCompatActivity {
         Intent i = new Intent(this, PlanosActivity.class);
         i.putExtra("PET_ID", petSelecionado.getPetId());
         startActivity(i);
-    }
-
-    private void abrirLeitorQrCode() {
-        if (agendamentoAtivoId != null && petSelecionado != null) {
-            Intent i = new Intent(this, LeitorQrCheckinActivity.class);
-            i.putExtra("AGENDAMENTO_ID", agendamentoAtivoId);
-            i.putExtra("PET_ID", petSelecionado.getPetId());
-            startActivity(i);
-        } else {
-            Toast.makeText(this, "Você não possui agendamento ativo para check-in.", Toast.LENGTH_SHORT).show();
-        }
     }
 }

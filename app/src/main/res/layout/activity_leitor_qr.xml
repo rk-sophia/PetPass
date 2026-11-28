@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/roxo_profundo_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check-in no Pet Shop"
+        android:textColor="@color/branco_suave"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Aponte a câmera para o QR Code exibido no painel do atendente."
+        android:textColor="@color/lilas_claro"
+        android:textSize="14sp"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btnAbrirCameraQr"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:backgroundTint="@color/roxo_neon"
+        android:text="ESCANEAR QR CODE COM CÂMERA"
+        android:textColor="@color/branco_suave"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Fallback para testes no Emulador Android Studio -->
+    <EditText
+        android:id="@+id/edtCodigoManualQr"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/roxo_escuro_card"
+        android:hint="Ou digite o código TOTP do painel web"
+        android:padding="12dp"
+        android:textColor="@color/branco_suave"
+        android:textColorHint="@color/cinza_suave"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/btnValidarCodigoManual"
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:backgroundTint="@color/roxo_eletrico"
+        android:text="VALIDAR CÓDIGO"
+        android:textColor="@color/branco_suave" />
+
+</LinearLayout>
