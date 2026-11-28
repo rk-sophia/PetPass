@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/roxo_profundo_bg"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtTituloLojaAgendamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agendar em Pet Spa"
+            android:textColor="@color/branco_suave"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. Escolha o serviço:"
+            android:textColor="@color/lilas_claro"
+            android:layout_marginBottom="6dp" />
+
+        <Spinner
+            android:id="@+id/spnServicoAgendamento"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/off_white"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2. Escolha a data:"
+            android:textColor="@color/lilas_claro"
+            android:layout_marginBottom="6dp" />
+
+        <Button
+            android:id="@+id/btnEscolherData"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:backgroundTint="@color/roxo_escuro_card"
+            android:text="SELECIONAR DATA"
+            android:textColor="@color/branco_suave"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3. Horário disponível na loja:"
+            android:textColor="@color/lilas_claro"
+            android:layout_marginBottom="6dp" />
+
+        <Spinner
+            android:id="@+id/spnHorarioAgendamento"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/off_white"
+            android:layout_marginBottom="16dp" />
+
+        <CheckBox
+            android:id="@+id/chkAdicionarAgenda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Adicionar lembrete na agenda pessoal do celular"
+            android:textColor="@color/branco_suave"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/btnConfirmarAgendamento"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/roxo_neon"
+            android:text="CONFIRMAR AGENDAMENTO"
+            android:textColor="@color/branco_suave"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>

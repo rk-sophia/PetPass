@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".HomeActivity" />
         <activity android:name=".PlanosActivity" />
-        <activity android:name=".PerfilPetActivity" />
+        <activity android:name=".PerfilTutorActivity" />
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".MapaParceirosActivity" />
         <activity android:name=".QrCodeCheckinActivity" />
@@ -46,6 +46,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".BuscaPetshopsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".AgendamentoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>
